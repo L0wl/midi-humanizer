@@ -1,0 +1,9 @@
+/.venv
+/venv
+/.build
+*.exe
+*.so
+*.dll
+*.pyc
+*.pyd
+/__pycache__
