@@ -1,8 +1,7 @@
-from mido import (MidiFile, MidiTrack)
+from mido import (MidiFile)
 from os import path
-import random
 from utils import LogicHandler
-from PySide6.QtWidgets import (QSizePolicy, QWidget, QMainWindow, QVBoxLayout, QListWidget, QMessageBox, QTabWidget, QSpacerItem,
+from PySide6.QtWidgets import (QSizePolicy, QWidget, QMainWindow, QVBoxLayout, QMessageBox, QTabWidget, QSpacerItem,
     QLabel, QHBoxLayout, QSpinBox, QDoubleSpinBox, QLineEdit, QPushButton, QFileDialog)
 
 class TrackSettingsWidget(QWidget):
@@ -127,8 +126,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self, "Error", f"Unable to load MIDI: {e}")
     
     def selectFile(self):
-        options = QFileDialog.Option()
-        filepath, _ = QFileDialog.getOpenFileName(self, "Select MIDI file", "", "MIDI files (*.mid *.midi);;All files (*)", options=options)
+        filepath, _ = QFileDialog.getOpenFileName(self, "Select MIDI file", "", "MIDI files (*.mid *.midi);;All files (*)")
         if filepath:
             self.lineEditFilePath.setText(filepath)
             self.loadTracks(filepath)
