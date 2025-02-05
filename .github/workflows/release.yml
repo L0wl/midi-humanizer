@@ -32,7 +32,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          onefile: true
+          mode: onefile
           enable-plugins: pyside6
 
       - name: Upload artifacts
