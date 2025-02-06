@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -43,8 +46,8 @@ jobs:
             build/*.app/**/*
           include-hidden-files: true
 
-  create_release:
-    name: Create release
+  release:
+    name: Release
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -56,9 +59,6 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files:
-            Linux Build.zip
-            Windows Build.zip
-            macOS Build.zip
+          files: artifacts/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
