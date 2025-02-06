@@ -33,6 +33,7 @@ jobs:
           nuitka-version: main
           script-name: main.py
           mode: onefile
+          output-file: ${{ github.repository.split('/')[1] }}_${{ runner.os }}_build
           disable-console: true
           enable-plugins: pyside6
 
