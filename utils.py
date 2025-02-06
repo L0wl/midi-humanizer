@@ -5,19 +5,18 @@ class LogicHandler:
     @staticmethod
     def humanizeMidi(mid, trackParams: dict):
         newMidi = MidiFile(ticks_per_beat=mid.ticks_per_beat)
-        
         for trackIndex, track in enumerate(mid.tracks):
             newTrack = MidiTrack()
             newMidi.tracks.append(newTrack)
-
-            params = trackParams.get(trackIndex, {})
-            timeRange = params.get("timeRange", None)
-            durationRange = params.get("durationRange", None)
-            velocityRange = params.get("velocityRange", None)
-            durationPrecentage = params.get("durationPrecent", None)
-
-            for param in [timeRange, durationRange, velocityRange, durationPrecentage]:
-                if param is None: return None
+            
+            params: dict = trackParams.get(trackIndex, None)
+            if params is None:
+                print(f"Skip track: {trackIndex}. No params passed")
+                continue
+            timeRange: int = params.get("timeRange", 0)
+            durationRange: int = params.get("durationRange", 0)
+            velocityRange: int = params.get("velocityRange", 0)
+            durationPrecentage: float = params.get("durationPrecent", 0.0)
 
             absTime = 0
             events = []
@@ -42,9 +41,9 @@ class LogicHandler:
                         reducedDuration = int(originalDuration * (1 - durationPrecentage / 100.0))
                         note_off["absTime"] = note_on["absTime"] + reducedDuration
 
-                        timeOffset = random.randint(-timeRange, timeRange)
-                        durationOffset = random.randint(-durationRange, durationRange)
-                        velocityOffset = random.randint(-velocityRange, velocityRange)
+                        timeOffset = random.randint(0, timeRange)
+                        durationOffset = random.randint(-timeRange, durationRange)
+                        velocityOffset = random.randint(-timeRange, velocityRange)
 
                         note_on["absTime"] += timeOffset
                         note_off["absTime"] += timeOffset
