@@ -41,7 +41,7 @@ jobs:
           else
             ext=""
           fi
-          build_file="${repo_name}_${{ runner.os }}_build${ext}"
+          build_file="${repo_name}_${{ runner.os }}_${{ runner.arch }}_build${ext}"
           echo "build_file=${build_file}" >> "$GITHUB_OUTPUT"
 
       - name: Build application
@@ -61,7 +61,7 @@ jobs:
           path: |
             build/*.exe
             build/*.bin
-            build/*.app/**/*
+            build/*.app
           include-hidden-files: true
 
   release:
