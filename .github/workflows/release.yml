@@ -55,5 +55,10 @@ jobs:
       - name: Create release
         id: create_release
         uses: softprops/action-gh-release@v2
+        with:
+          files:
+            Linux Build
+            Windows Build
+            macOS Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

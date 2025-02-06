@@ -1,4 +1,4 @@
-from mido import (MidiFile)
+from mido import (MetaMessage, MidiFile, MidiTrack)
 from os import path
 from utils import LogicHandler
 from PySide6.QtWidgets import (QSizePolicy, QWidget, QMainWindow, QVBoxLayout, QMessageBox, QTabWidget, QSpacerItem,
@@ -10,8 +10,8 @@ class TrackSettingsWidget(QWidget):
         self.trackIndex = trackIndex
         self.layout = QVBoxLayout(self)
 
-        self.labelTrack = QLabel(f"Track {trackIndex + 1}")
-        self.layout.addWidget(self.labelTrack)
+        # self.labelTrack = QLabel(f"Track {trackIndex + 1}")
+        # self.layout.addWidget(self.labelTrack)
 
         self.layoutTime = QHBoxLayout()
         self.labelTime = QLabel("Time Offset:")
@@ -107,20 +107,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.pushButtonSelectFile.clicked.connect(self.selectFile)
+        self.lineEditFilePath.textChanged.connect(self.loadTracks)
         self.pushButtonHumanize.clicked.connect(self.startProcessing)
 
         self.trackWidgets = []
     
     def loadTracks(self, filepath):
         try:
-            mid = MidiFile(filepath)
             self.tabWidgetTracks.clear()
             self.trackWidgets.clear()
-
+            self.pushButtonHumanize.setEnabled(False)
+            if not (path.exists(filepath) and path.isfile(filepath)):
+                return
+            mid: MidiFile = MidiFile(filepath)
             for index, track in enumerate(mid.tracks):
-                trackWidget = TrackSettingsWidget(index)
-                self.trackWidgets.append(trackWidget)
-                self.tabWidgetTracks.addTab(trackWidget, f"Track {index + 1}")
+                valid_track = False
+                for msg in track:
+
+                    # Checks if the track has midi notes
+                    if (str(msg).find("note_on") != -1) or (str(msg).find("note_off") != -1):
+                        valid_track = True
+                        break
+                if valid_track:
+                    trackWidget = TrackSettingsWidget(index)
+                    self.trackWidgets.append(trackWidget)
+                    self.tabWidgetTracks.addTab(trackWidget, track.name if track.name != "" else f"Track {index + 1}")
             self.pushButtonHumanize.setEnabled(True)
         except Exception as e:
             QMessageBox.warning(self, "Error", f"Unable to load MIDI: {e}")
