@@ -27,9 +27,22 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Split repo name
-        id: splitRepoName
-        run: echo "repoName=${${{ github.repository }}##*/}" >> $GITHUB_OUTPUT
+      - name: Setup build file
+        id: set_build_name
+        shell: bash
+        run: |
+          repo_name=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            ext=".exe"
+          elif [ "${{ runner.os }}" = "Linux" ]; then
+            ext=".bin"
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            ext=".app"
+          else
+            ext=""
+          fi
+          build_file="${repo_name}_${{ runner.os }}_build${ext}"
+          echo "build_file=${build_file}" >> "$GITHUB_OUTPUT"
 
       - name: Build application
         uses: Nuitka/Nuitka-Action@main
@@ -37,7 +50,7 @@ jobs:
           nuitka-version: main
           script-name: main.py
           mode: onefile
-          output-file: ${{ steps.splitRepoName.outputs.repoName }}_${{ runner.os }}_build
+          output-file: steps.set_build_name.output.build_file
           disable-console: true
           enable-plugins: pyside6
 

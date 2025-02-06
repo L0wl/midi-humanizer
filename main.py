@@ -1,3 +1,6 @@
+# nuitka-project-if: {OS} in ("Windows")
+
+
 from PySide6.QtWidgets import QApplication
 from gui import MainWindow
 from sys import (argv, exit)
