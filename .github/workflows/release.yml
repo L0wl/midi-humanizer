@@ -37,7 +37,7 @@ jobs:
           elif [ "${{ runner.os }}" = "Linux" ]; then
             ext=".bin"
           elif [ "${{ runner.os }}" = "macOS" ]; then
-            ext=".app"
+            ext=".bin"
           else
             ext=""
           fi
