@@ -50,7 +50,7 @@ jobs:
           nuitka-version: main
           script-name: main.py
           mode: onefile
-          output-file: steps.set_build_name.output.build_file
+          output-file: ${{ steps.set_build_name.outputs.build_file }}
           disable-console: true
           enable-plugins: pyside6
 
