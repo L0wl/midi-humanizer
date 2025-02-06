@@ -10,9 +10,9 @@ class LogicHandler:
             newMidi.tracks.append(newTrack)
             
             params: dict = trackParams.get(trackIndex, None)
-            if params is None:
-                print(f"Skip track: {trackIndex}. No params passed")
-                continue
+            
+            if params is None: continue
+
             timeRange: int = params.get("timeRange", 0)
             durationRange: int = params.get("durationRange", 0)
             velocityRange: int = params.get("velocityRange", 0)
