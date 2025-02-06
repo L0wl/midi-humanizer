@@ -140,7 +140,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         filepath, _ = QFileDialog.getOpenFileName(self, "Select MIDI file", "", "MIDI files (*.mid *.midi);;All files (*)")
         if filepath:
             self.lineEditFilePath.setText(filepath)
-            self.loadTracks(filepath)
 
     def startProcessing(self):
         inputPath = self.lineEditFilePath.text()
