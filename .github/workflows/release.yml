@@ -27,13 +27,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Split repo name
+        id: splitRepoName
+        run: echo "repoName=${${{ github.repository }}##*/}" >> $GITHUB_OUTPUT
+
       - name: Build application
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
           script-name: main.py
           mode: onefile
-          output-file: ${{ github.repository.split('/')[1] }}_${{ runner.os }}_build
+          output-file: ${{ steps.splitRepoName.outputs.repoName }}_${{ runner.os }}_build
           disable-console: true
           enable-plugins: pyside6
 
