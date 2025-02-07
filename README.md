@@ -10,7 +10,7 @@ The MIDI Humanizer is a tool that allows you to humanize MIDI files by adding ra
   - **Duration Offset:** Randomly adjust note durations within a specified range.
   - **Velocity Offset:** Randomly change note velocities within a specified range.
   - **Duration Percentage:** Reduce note durations by a specified percentage before applying offsets.
-- **Single Track Processing:** Humanize each track individually while considering notes from all tracks to prevent overlapping.
+- **Multiple Track Processing:** Humanize each track individually while considering notes from all tracks to prevent overlapping.
 - **Save Processed File:** Save the humanized MIDI file with a `_humanized` suffix in the same directory.
 
 ## Usage
