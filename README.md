@@ -32,3 +32,26 @@ python -m venv .venv
 pip install requirements.txt
 python main.py
 ```
+
+
+## Building
+
+1. Open venv and install `nuitka`
+```bash
+pip install nuitka
+```
+
+2. Build with nuitka
+```bash
+nuitka --mode=onefile --disable-console --output-dir=build --script-name=main.py --enable-plugins=pyside6
+```
+
+3. Wait until done, then open `build` folder
+```bash
+cd build
+```
+
+4. Run the app
+```bash
+./main
+```
